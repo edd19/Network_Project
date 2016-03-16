@@ -233,7 +233,7 @@ interface GigabitEthernet0/4
   ip router isis 1
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 1
+  isis metric 5
   duplex full
   speed auto
   no shutdown
