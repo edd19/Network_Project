@@ -1,0 +1,61 @@
+#!/usr/bin/expect
+
+
+# variable definition
+set timeout 2
+
+#Routers addresses
+set E1 "192.168.0.1"
+set E2 "192.168.0.2"
+set E3 "192.168.0.3"
+set C1 "192.168.0.4"
+set C2 "192.168.0.5"
+set C3 "192.168.0.6"
+set ext-2 "192.168.2.1"
+set ext-3 "192.168.2.2"
+set ext-4 "192.168.2.3"
+array set routers {"192.168.0.1"  "192.168.0.2" "192.168.0.3" "192.168.0.4" "192.168.0.5" "192.168.0.6" "192.168.2.1" "192.168.2.2"}
+
+set my_password cisco
+
+################CHECK IF C1 IS WELL CONFIGURED
+set cli_line "C1>"
+set address "172.16.11.254"
+set port "17000"
+
+
+# open a telnet session to a remote server, and wait for a username prompt.
+spawn telnet $address $port
+
+
+
+# wait for a shell prompt, then go to enable mode. If a timeout is reached, prompt an error and exit.
+expect "$cli_line"
+send "enable\r"
+
+# the password is the next thing to be asked in return to the telnet connection.
+expect "Password:"
+send "$my_password\r"
+
+# check to be in enabled mode (with a regular expression). Then, send a ping and capture the result of the command into a variable. Later, the variable can be displayed, or written to disk.
+foreach router [array names routers] {
+    expect -re ".*#" {
+        send "ping $router\r"
+        set results $expect_out(buffer)
+        set index [string first "Success rate is 100 percent" $results]
+        if { $index == -1} {puts "\rError with ping\r"}
+    }
+}
+
+# exit the enabled mode
+send "exit\r"
+
+# exit the telnet session, and wait for the end-of-file char.
+send "exit\r"
+expect eof
+
+# print the output of the results variable
+#puts "\r"
+#puts "printing results:\r"
+#puts $results
+#puts "\r"
