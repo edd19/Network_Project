@@ -63,7 +63,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
   description to C2
   ip address 10.0.128.13 255.255.255.252
-  ip router isis 1
+  ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -74,7 +74,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
   description to E1
   ip address 10.0.128.2 255.255.255.252
-  ip router isis 1
+  ip router isis 10
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -85,7 +85,7 @@ interface GigabitEthernet0/2
 interface GigabitEthernet0/3
   description to E2
   ip address 10.0.128.9 255.255.255.252
-  ip router isis 1
+  ip router isis 5
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -197,7 +197,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
   description to E3
   ip address 10.0.0.13 255.255.255.252
-  ip router isis 1
+  ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -208,7 +208,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
   description to C1
   ip address 10.0.128.14 255.255.255.252
-  ip router isis 1
+  ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -219,7 +219,7 @@ interface GigabitEthernet0/2
 interface GigabitEthernet0/3
   description to C3
   ip address 10.0.0.9 255.255.255.252
-  ip router isis 1
+  ip router isis 5
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -230,7 +230,7 @@ interface GigabitEthernet0/3
 interface GigabitEthernet0/4
   description to E2
   ip address 10.0.0.6 255.255.255.252
-  ip router isis 1
+  ip router isis 20
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -342,7 +342,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
   description to E1
   ip address 10.0.0.2 255.255.255.252
-  ip router isis 1
+  ip router isis 10
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -353,7 +353,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
   description to E3
   ip address 10.0.0.21 255.255.255.252
-  ip router isis 1
+  ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -364,7 +364,7 @@ interface GigabitEthernet0/2
 interface GigabitEthernet0/3
   description to C2
   ip address 10.0.0.10 255.255.255.252
-  ip router isis 1
+  ip router isis 5
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -483,7 +483,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
   description to C3
   ip address 10.0.0.1 255.255.255.252
-  ip router isis 1
+  ip router isis 10
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -494,7 +494,7 @@ interface GigabitEthernet0/2
 interface GigabitEthernet0/3
   description to C1
   ip address 10.0.128.1 255.255.255.252
-  ip router isis 1
+  ip router isis 10
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -612,7 +612,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
   description to C2
   ip address 10.0.0.5 255.255.255.252
-  ip router isis 1
+  ip router isis 20
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -623,7 +623,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
   description to C1
   ip address 10.0.128.10 255.255.255.252
-  ip router isis 1
+  ip router isis 5
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -748,7 +748,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
   description to C3
   ip address 10.0.0.22 255.255.255.252
-  ip router isis 1
+  ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1
@@ -766,7 +766,7 @@ interface GigabitEthernet0/2
 interface GigabitEthernet0/3
   description to C2
   ip address 10.0.0.14 255.255.255.252
-  ip router isis 1
+  ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 1

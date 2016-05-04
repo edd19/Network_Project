@@ -2,7 +2,7 @@
 
 
 # variable definition
-set timeout 20.0
+set timeout 10.0
 
 #Routers addresses
 set E1 "192.168.0.1"
@@ -29,84 +29,55 @@ lappend mylist $ext4
 set my_password "cisco"
 
 ################CHECK IF C1 IS WELL CONFIGURED
-set cli_line "C1>"
+set cli_line "C2>"
 set cli_line2 "#"
 set address "172.16.11.254"
-set port "17012"
+set port "17014"
 
 
 # open a telnet session to a remote server, and wait for a username prompt.
 spawn telnet $address $port
 expect "'^]'."
 sleep 2;
-
+#send \0366;
 
 send "\r";
+
 #send "exit\r"
 
 
 
 # wait for a shell prompt, then go to enable mode. If a timeout is reached, prompt an error and exit.
 expect {
-    "$cli_line" {send "show bgp\r"}
+    "$cli_line" {send "enable\r"}
     timeout {
         puts "\rERROR: password failed!\r"
         exp_close
     }
 }
 
-expect {
-    "More" {
-        send "\r"
-        exp_continue
-    }
-
-}
-
-#Show the isis topology
-expect {
-    "$cli_line" {send "show isis topology\r"}
-}
-
-
-# check to be in enabled mode (with a regular expression). Then, send a ping and capture the result of the command into a variable. Later, the variable can be displayed, or written to disk.
-foreach elem $mylist {
-    expect {
-        "#" {
-            send "ping $elem\r"
-        }
-        timout {
-            puts "\rERROR: password failed!\r"
-            puts "\r\033\[31mERROR TIMOUT :\033\[0m ping failed!\r"
-        }
-    }
-    puts "\n"
-
-}
-#
-sleep 6
-puts "Ping end\r"
+# the password is the next thing to be asked in return to the telnet connection.
+expect "Password:"
+send "$my_password\r"
 
 
 
 #Send trace to all routers.
-#foreach elem $mylist {
-#    expect {
-#        "#" {
-#            send "trace $elem\r"
-#            sleep 3
-#        }
-#        timout {
-#            puts "\rERROR: trace failed!\r"
-#        }
-#    }
-#}
+foreach elem $mylist {
+    expect {
+        "#" {
+            send "trace $elem\r"
+        }
+        timout {
+            puts "\rERROR: trace failed!\r"
+        }
+    }
+}
 
 sleep 3
 puts "\rTrace end\r"
 
 
-# exit the enabled mode
 expect -re ".*#" {send "exit\r"}
 
 
