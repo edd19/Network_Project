@@ -66,7 +66,7 @@ interface GigabitEthernet0/1
   ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 50
+  isis metric 15
   duplex full
   speed auto
   no shutdown
@@ -211,7 +211,7 @@ interface GigabitEthernet0/2
   ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 50
+  isis metric 15
   duplex full
   speed auto
   no shutdown
@@ -219,7 +219,7 @@ interface GigabitEthernet0/2
 interface GigabitEthernet0/3
   description to C3
   ip address 10.0.0.9 255.255.255.252
-  ip router isis 5
+  ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
   isis metric 5
@@ -356,7 +356,7 @@ interface GigabitEthernet0/2
   ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 15
+  isis metric 50
   duplex full
   speed auto
   no shutdown
@@ -367,7 +367,7 @@ interface GigabitEthernet0/3
   ip router isis 5
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 5
+  isis metric 15
   duplex full
   speed auto
   no shutdown
@@ -751,7 +751,7 @@ interface GigabitEthernet0/1
   ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 15
+  isis metric 50
   duplex full
   speed auto
   no shutdown
