@@ -1,0 +1,1131 @@
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd"><extensions><entry key="management_network" type="String">user</entry><entry key="AutoNetkit.address_family" type="String">v4</entry><entry key="AutoNetkit.enable_routing" type="Boolean">true</entry><entry key="AutoNetkit.IGP" type="String">isis</entry></extensions><node location="353,332" type="SIMPLE" subtype="IOSv" name="C1" ipv4="192.168.0.4"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname C1
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.4 255.255.255.255
+  ip router isis 1
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to C2
+  ip address 10.0.128.13 255.255.255.252
+  ip router isis 50
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 50
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/2
+  description to E1
+  ip address 10.0.128.2 255.255.255.252
+  ip router isis 10
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 10
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/3
+  description to E2
+  ip address 10.0.128.9 255.255.255.252
+  ip router isis 5
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 5
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 1
+  net 49.1921.6800.0004.00
+  metric-style wide
+!
+!
+router bgp 1
+  bgp router-id 192.168.0.4
+  no synchronization
+! ibgp
+  ! ibgp clients
+  !
+  neighbor 192.168.0.1 remote-as 1
+  neighbor 192.168.0.1 description rr client E1
+  neighbor 192.168.0.1 update-source Loopback0
+  ! ibgp peers
+  !
+  neighbor 192.168.0.5 remote-as 1
+  neighbor 192.168.0.5 description iBGP peer C2
+  neighbor 192.168.0.5 update-source Loopback0
+  !
+  neighbor 192.168.0.6 remote-as 1
+  neighbor 192.168.0.6 description iBGP peer C3
+  neighbor 192.168.0.6 update-source Loopback0
+!
+!
+ !
+ address-family ipv4
+  network 192.168.0.4 mask 255.255.255.255
+  neighbor 192.168.0.5 activate
+  neighbor 192.168.0.6 activate
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.1 route-reflector-client
+ exit-address-family
+!
+!
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">1</entry><entry key="AutoNetkit.ibgp_role" type="String">RR</entry><entry key="AutoNetkit.RR_cluster" type="String">cluster1</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="10.0.128.13" netPrefixLenV4="30"/><interface name="GigabitEthernet0/2" id="1" ipv4="10.0.128.2" netPrefixLenV4="30"/><interface name="GigabitEthernet0/3" id="2" ipv4="10.0.128.9" netPrefixLenV4="30"/></node><node location="542,332" type="SIMPLE" subtype="IOSv" name="C2" ipv4="192.168.0.5"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname C2
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.5 255.255.255.255
+  ip router isis 1
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to E3
+  ip address 10.0.0.13 255.255.255.252
+  ip router isis 50
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 50
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/2
+  description to C1
+  ip address 10.0.128.14 255.255.255.252
+  ip router isis 50
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 50
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/3
+  description to C3
+  ip address 10.0.0.9 255.255.255.252
+  ip router isis 5
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 5
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/4
+  description to E2
+  ip address 10.0.0.6 255.255.255.252
+  ip router isis 20
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 20
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 1
+  net 49.1921.6800.0005.00
+  metric-style wide
+!
+!
+router bgp 1
+  bgp router-id 192.168.0.5
+  no synchronization
+! ibgp
+  ! ibgp clients
+  !
+  neighbor 192.168.0.2 remote-as 1
+  neighbor 192.168.0.2 description rr client E2
+  neighbor 192.168.0.2 update-source Loopback0
+  ! ibgp peers
+  !
+  neighbor 192.168.0.4 remote-as 1
+  neighbor 192.168.0.4 description iBGP peer C1
+  neighbor 192.168.0.4 update-source Loopback0
+  !
+  neighbor 192.168.0.6 remote-as 1
+  neighbor 192.168.0.6 description iBGP peer C3
+  neighbor 192.168.0.6 update-source Loopback0
+!
+!
+ !
+ address-family ipv4
+  network 192.168.0.5 mask 255.255.255.255
+  neighbor 192.168.0.4 activate
+  neighbor 192.168.0.6 activate
+  neighbor 192.168.0.2 activate
+  neighbor 192.168.0.2 route-reflector-client
+ exit-address-family
+!
+!
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">1</entry><entry key="AutoNetkit.ibgp_role" type="String">RR</entry><entry key="AutoNetkit.RR_cluster" type="String">cluster2</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="10.0.0.13" netPrefixLenV4="30"/><interface name="GigabitEthernet0/2" id="1" ipv4="10.0.128.14" netPrefixLenV4="30"/><interface name="GigabitEthernet0/3" id="2" ipv4="10.0.0.9" netPrefixLenV4="30"/><interface name="GigabitEthernet0/4" id="3" ipv4="10.0.0.6" netPrefixLenV4="30"/></node><node location="465,187" type="SIMPLE" subtype="IOSv" name="C3" ipv4="192.168.0.6"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname C3
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.6 255.255.255.255
+  ip router isis 1
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to E1
+  ip address 10.0.0.2 255.255.255.252
+  ip router isis 10
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 10
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/2
+  description to E3
+  ip address 10.0.0.21 255.255.255.252
+  ip router isis 15
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 15
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/3
+  description to C2
+  ip address 10.0.0.10 255.255.255.252
+  ip router isis 5
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 5
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 1
+  net 49.1921.6800.0006.00
+  metric-style wide
+!
+!
+router bgp 1
+  bgp router-id 192.168.0.6
+  no synchronization
+! ibgp
+  ! ibgp clients
+  !
+  neighbor 192.168.0.3 remote-as 1
+  neighbor 192.168.0.3 description rr client E3
+  neighbor 192.168.0.3 update-source Loopback0
+  ! ibgp peers
+  !
+  neighbor 192.168.0.4 remote-as 1
+  neighbor 192.168.0.4 description iBGP peer C1
+  neighbor 192.168.0.4 update-source Loopback0
+  !
+  neighbor 192.168.0.5 remote-as 1
+  neighbor 192.168.0.5 description iBGP peer C2
+  neighbor 192.168.0.5 update-source Loopback0
+!
+!
+ !
+ address-family ipv4
+  network 192.168.0.6 mask 255.255.255.255
+  neighbor 192.168.0.4 activate
+  neighbor 192.168.0.5 activate
+  neighbor 192.168.0.3 activate
+  neighbor 192.168.0.3 route-reflector-client
+ exit-address-family
+!
+!
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">1</entry><entry key="AutoNetkit.ibgp_role" type="String">RR</entry><entry key="AutoNetkit.RR_cluster" type="String">cluster3</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="10.0.0.2" netPrefixLenV4="30"/><interface name="GigabitEthernet0/2" id="1" ipv4="10.0.0.21" netPrefixLenV4="30"/><interface name="GigabitEthernet0/3" id="2" ipv4="10.0.0.10" netPrefixLenV4="30"/></node><node location="215,250" type="SIMPLE" subtype="IOSv" name="E1" ipv4="192.168.0.1"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname E1
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.1 255.255.255.255
+  ip router isis 1
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to ext-2
+  ip address 20.0.0.2 255.255.0.0
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/2
+  description to C3
+  ip address 10.0.0.1 255.255.255.252
+  ip router isis 10
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 10
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/3
+  description to C1
+  ip address 10.0.128.1 255.255.255.252
+  ip router isis 10
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 10
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 1
+  net 49.1921.6800.0001.00
+  metric-style wide
+!
+!
+router bgp 1
+  bgp router-id 192.168.0.1
+  no synchronization
+! ibgp
+  ! ibgp route reflector servers
+  !
+  neighbor 192.168.0.4 remote-as 1
+  neighbor 192.168.0.4 description rr parent C1
+  neighbor 192.168.0.4 update-source Loopback0
+!
+! ebgp
+  !
+  neighbor 20.0.0.1 remote-as 2
+  neighbor 20.0.0.1 description eBGP to ext-2
+!
+!
+ !
+ address-family ipv4
+  network 192.168.0.1 mask 255.255.255.255
+  network 10.0.0.0 mask 255.255.255.240
+  network 10.0.0.16 mask 255.255.255.248
+  network 10.0.128.0 mask 255.255.255.240
+  network 20.0.0.0 mask 255.255.0.0
+  network 10.1.0.0 mask 255.255.0.0
+  neighbor 192.168.0.4 activate
+  neighbor 192.168.0.4 next-hop-self
+  neighbor 20.0.0.1 activate
+  neighbor 20.0.0.1 send-community
+  neighbor 20.0.0.1 next-hop-self
+ exit-address-family
+!
+!
+ip route 10.0.0.0 255.255.255.240 Null0 254
+ip route 10.0.0.16 255.255.255.248 Null0 254
+ip route 10.0.128.0 255.255.255.240 Null0 254
+ip route 10.1.0.0 255.255.0.0 Null0 254
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">1</entry><entry key="AutoNetkit.ibgp_role" type="String">RRC</entry><entry key="AutoNetkit.RR_cluster" type="String">cluster1</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="20.0.0.2" netPrefixLenV4="30"/><interface name="GigabitEthernet0/2" id="1" ipv4="10.0.0.1" netPrefixLenV4="30"/><interface name="GigabitEthernet0/3" id="2" ipv4="10.0.128.1" netPrefixLenV4="30"/></node><node location="465,429" type="SIMPLE" subtype="IOSv" name="E2" ipv4="192.168.0.2"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname E2
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.2 255.255.255.255
+  ip router isis 1
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to C2
+  ip address 10.0.0.5 255.255.255.252
+  ip router isis 20
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 20
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/2
+  description to C1
+  ip address 10.0.128.10 255.255.255.252
+  ip router isis 5
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 5
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/3
+  description to ext-4
+  ip address 40.0.0.2 255.255.0.0
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 1
+  net 49.1921.6800.0002.00
+  metric-style wide
+!
+!
+router bgp 1
+  bgp router-id 192.168.0.2
+  no synchronization
+! ibgp
+  ! ibgp route reflector servers
+  !
+  neighbor 192.168.0.5 remote-as 1
+  neighbor 192.168.0.5 description rr parent C2
+  neighbor 192.168.0.5 update-source Loopback0
+!
+! ebgp
+  !
+  neighbor 40.0.0.1 remote-as 4
+  neighbor 40.0.0.1 description eBGP to ext-4
+!
+!
+ !
+ address-family ipv4
+  network 192.168.0.2 mask 255.255.255.255
+  network 10.0.0.0 mask 255.255.255.240
+  network 10.0.0.16 mask 255.255.255.248
+  network 10.0.128.0 mask 255.255.255.240
+  network 40.0.0.0 mask 255.255.0.0
+  network 10.1.0.0 mask 255.255.0.0
+  neighbor 192.168.0.5 activate
+  neighbor 192.168.0.5 next-hop-self
+  neighbor 40.0.0.1 activate
+  neighbor 40.0.0.1 send-community
+  neighbor 40.0.0.1 next-hop-self
+ exit-address-family
+!
+!
+ip route 10.0.0.0 255.255.255.240 Null0 254
+ip route 10.0.0.16 255.255.255.248 Null0 254
+ip route 10.0.128.0 255.255.255.240 Null0 254
+ip route 10.1.0.0 255.255.0.0 Null0 254
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">1</entry><entry key="AutoNetkit.ibgp_role" type="String">RRC</entry><entry key="AutoNetkit.RR_cluster" type="String">cluster2</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="10.0.0.5" netPrefixLenV4="30"/><interface name="GigabitEthernet0/2" id="1" ipv4="10.0.128.10" netPrefixLenV4="30"/><interface name="GigabitEthernet0/3" id="2" ipv4="40.0.0.2" netPrefixLenV4="16"/></node><node location="649,250" type="SIMPLE" subtype="IOSv" name="E3" ipv4="192.168.0.3"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname E3
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.0.3 255.255.255.255
+  ip router isis 1
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to C3
+  ip address 10.0.0.22 255.255.255.252
+  ip router isis 15
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 15
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/2
+  description to ext-3
+  ip address 30.0.0.2 255.255.0.0
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/3
+  description to C2
+  ip address 10.0.0.14 255.255.255.252
+  ip router isis 50
+  isis circuit-type level-2-only
+  isis network point-to-point
+  isis metric 50
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 1
+  net 49.1921.6800.0003.00
+  metric-style wide
+!
+!
+router bgp 1
+  bgp router-id 192.168.0.3
+  no synchronization
+! ibgp
+  ! ibgp route reflector servers
+  !
+  neighbor 192.168.0.6 remote-as 1
+  neighbor 192.168.0.6 description rr parent C3
+  neighbor 192.168.0.6 update-source Loopback0
+!
+! ebgp
+  !
+  neighbor 30.0.0.1 remote-as 3
+  neighbor 30.0.0.1 description eBGP to ext-3
+!
+!
+ !
+ address-family ipv4
+  network 192.168.0.3 mask 255.255.255.255
+  network 10.0.0.0 mask 255.255.255.240
+  network 10.0.0.16 mask 255.255.255.248
+  network 10.0.128.0 mask 255.255.255.240
+  network 30.0.0.0 mask 255.255.0.0
+  network 10.1.0.0 mask 255.255.0.0
+  neighbor 192.168.0.6 activate
+  neighbor 192.168.0.6 next-hop-self
+  neighbor 30.0.0.1 activate
+  neighbor 30.0.0.1 send-community
+  neighbor 30.0.0.1 next-hop-self
+ exit-address-family
+!
+!
+ip route 10.0.0.0 255.255.255.240 Null0 254
+ip route 10.0.0.16 255.255.255.248 Null0 254
+ip route 10.0.128.0 255.255.255.240 Null0 254
+ip route 10.1.0.0 255.255.0.0 Null0 254
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">1</entry><entry key="AutoNetkit.ibgp_role" type="String">RRC</entry><entry key="AutoNetkit.RR_cluster" type="String">cluster3</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="10.0.0.22" netPrefixLenV4="30"/><interface name="GigabitEthernet0/2" id="1" ipv4="30.0.0.2" netPrefixLenV4="30"/><interface name="GigabitEthernet0/3" id="2" ipv4="10.0.0.14" netPrefixLenV4="30"/></node><node location="215,123" type="SIMPLE" subtype="IOSv" name="ext-2" ipv4="192.168.2.1"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname ext-2
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.2.1 255.255.255.255
+  ip router isis 2
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to E1
+  ip address 20.0.0.1 255.255.0.0
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 2
+  net 49.1921.6800.2001.00
+  metric-style wide
+!
+!
+ip route 20.0.0.0 255.0.0.0 null 0
+!
+!
+router bgp 2
+  bgp router-id 192.168.2.1
+  network 20.0.0.0 mask 255.0.0.0
+  no synchronization
+! ibgp
+!
+! ebgp
+  !
+  neighbor 20.0.0.2 remote-as 1
+  neighbor 20.0.0.2 description eBGP to E1
+!
+!
+ !
+ address-family ipv4
+  network 192.168.2.1 mask 255.255.255.255
+  network 20.0.0.1 mask 255.255.0.0
+  neighbor 20.0.0.2 activate
+  neighbor 20.0.0.2 send-community
+  neighbor 20.0.0.2 next-hop-self
+ exit-address-family
+!
+!
+ip route 20.0.0.1 255.255.0.0 Null0 254
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">2</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="20.0.0.1" netPrefixLenV4="16"/></node><node location="708,123" type="SIMPLE" subtype="IOSv" name="ext-3" ipv4="192.168.3.1"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname ext-3
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.3.1 255.255.255.255
+  ip router isis 3
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to E3
+  ip address 30.0.0.1 255.255.0.0
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 3
+  net 49.1921.6800.3001.00
+  metric-style wide
+!
+!
+ip route 10.0.0.0 255.0.0.0 null 0
+!
+!
+router bgp 3
+  bgp router-id 192.168.3.1
+  network 10.0.0.0 mask 255.0.0.0
+  no synchronization
+! ibgp
+!
+! ebgp
+  !
+  neighbor 30.0.0.2 remote-as 1
+  neighbor 30.0.0.2 description eBGP to E3
+!
+!
+ !
+ address-family ipv4
+  network 192.168.3.1 mask 255.255.255.255
+  network 30.0.0.1 mask 255.255.0.0
+  neighbor 30.0.0.2 activate
+  neighbor 30.0.0.2 send-community
+  neighbor 30.0.0.2 next-hop-self
+ exit-address-family
+!
+!
+ip route 30.0.0.1 255.255.0.0 Null0 254
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">3</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="30.0.0.1" netPrefixLenV4="16"/></node><node location="215,490" type="SIMPLE" subtype="IOSv" name="ext-4" ipv4="192.168.4.1"><extensions><entry key="config" type="string">! IOS Config generated on 2016-03-23 03:14
+! by autonetkit_0.21.4
+!
+hostname ext-4
+boot-start-marker
+boot-end-marker
+!
+vrf definition Mgmt-intf
+!
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+no aaa new-model
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+no service config
+enable password cisco
+ip classless
+ip subnet-zero
+no ip domain lookup
+ip domain name virl.info
+crypto key generate rsa modulus 768
+ip ssh server algorithm authentication password
+username cisco privilege 15 secret cisco
+line vty 0 4
+ transport input ssh telnet
+ exec-timeout 720 0
+ password cisco
+ login local
+line con 0
+ password cisco
+!
+no cdp run
+!
+!
+interface Loopback0
+  description Loopback
+  ip address 192.168.4.1 255.255.255.255
+  ip router isis 4
+!
+interface GigabitEthernet0/0
+  description OOB Management
+  vrf forwarding Mgmt-intf
+  ! Configured on launch
+  no ip address
+  duplex full
+  speed auto
+  no shutdown
+!
+interface GigabitEthernet0/1
+  description to E2
+  ip address 40.0.0.1 255.255.0.0
+  duplex full
+  speed auto
+  no shutdown
+!
+!
+!
+router isis 4
+  net 49.1921.6800.4001.00
+  metric-style wide
+!
+!
+!
+router bgp 4
+  bgp router-id 192.168.4.1
+  no synchronization
+! ibgp
+!
+! ebgp
+  !
+  neighbor 40.0.0.2 remote-as 1
+  neighbor 40.0.0.2 description eBGP to E2
+!
+!
+ !
+ address-family ipv4
+  network 192.168.4.1 mask 255.255.255.255
+  network 40.0.0.1 mask 255.255.0.0
+  neighbor 40.0.0.2 activate
+  neighbor 40.0.0.2 send-community
+  neighbor 40.0.0.2 next-hop-self
+ exit-address-family
+!
+!
+ip address 40.0.0.1 255.255.0.0
+!
+end
+</entry><entry key="AutoNetkit.ASN" type="Integer">4</entry></extensions><interface name="GigabitEthernet0/1" id="0" ipv4="40.0.0.1" netPrefixLenV4="16"/></node><connection src="/virl:topology/virl:node[5]/virl:interface[2]" dst="/virl:topology/virl:node[1]/virl:interface[3]"/><connection src="/virl:topology/virl:node[5]/virl:interface[3]" dst="/virl:topology/virl:node[9]/virl:interface[1]"/><connection src="/virl:topology/virl:node[3]/virl:interface[3]" dst="/virl:topology/virl:node[2]/virl:interface[3]"/><connection src="/virl:topology/virl:node[1]/virl:interface[2]" dst="/virl:topology/virl:node[4]/virl:interface[3]"/><connection src="/virl:topology/virl:node[7]/virl:interface[1]" dst="/virl:topology/virl:node[4]/virl:interface[1]"/><connection src="/virl:topology/virl:node[4]/virl:interface[2]" dst="/virl:topology/virl:node[3]/virl:interface[1]"/><connection src="/virl:topology/virl:node[6]/virl:interface[1]" dst="/virl:topology/virl:node[3]/virl:interface[2]"/><connection src="/virl:topology/virl:node[6]/virl:interface[2]" dst="/virl:topology/virl:node[8]/virl:interface[1]"/><connection src="/virl:topology/virl:node[6]/virl:interface[3]" dst="/virl:topology/virl:node[2]/virl:interface[1]"/><connection src="/virl:topology/virl:node[2]/virl:interface[2]" dst="/virl:topology/virl:node[1]/virl:interface[1]"/><connection src="/virl:topology/virl:node[2]/virl:interface[4]" dst="/virl:topology/virl:node[5]/virl:interface[1]"/></topology>
