@@ -200,7 +200,7 @@ interface GigabitEthernet0/1
   ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 50
+  isis metric 15
   duplex full
   speed auto
   no shutdown
@@ -356,7 +356,7 @@ interface GigabitEthernet0/2
   ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 50
+  isis metric 15
   duplex full
   speed auto
   no shutdown
@@ -754,7 +754,7 @@ interface GigabitEthernet0/1
   ip router isis 15
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 50
+  isis metric 15
   duplex full
   speed auto
   no shutdown
@@ -772,7 +772,7 @@ interface GigabitEthernet0/3
   ip router isis 50
   isis circuit-type level-2-only
   isis network point-to-point
-  isis metric 50
+  isis metric 15
   duplex full
   speed auto
   no shutdown
